@@ -1,1 +1,24 @@
-﻿
+﻿ tr:not(.home) {
+    cursor: pointer;
+}
+
+.ui-state-highlight {
+    border: 1px dashed #ccc;
+}
+
+new-cat {
+    margin-top: 30px;
+    position: relative;
+}
+
+ajax-text {
+    display: none;
+}
+
+categories td {
+    padding: 20px ;
+}
+
+.ajaxdivtd {
+    position: absolute;
+}
