@@ -5,9 +5,7 @@
 @{
     ViewBag.Title = "Pages";
 }
-
 <h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New Page", "CreatePage")
 </p>
@@ -30,7 +28,6 @@ else
             </th>
             <th></th>
         </tr>
-
         @foreach (var item in Model)
         {
             <tr>
@@ -54,24 +51,32 @@ else
                     @Html.ActionLink("Details", "PageDetails", new { id = item.Id }) |
                     @if (item.Slug != "home")
                     {
-                        @Html.ActionLink("Delete", "DeletePage", new { id = item.Id }, new { @class="delete" })
+                        @Html.ActionLink("Delete", "DeletePage", new { id = item.Id }, new { @class = "delete" })
 
                     }
                 </td>
             </tr>
         }
 
-
     </table>
 }
-
 @section Scripts{
-    <script>
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     $(function(){
-        $("a.delete").click(function () {
-            if (!confirm("Confirm page delete")) return false;
-    
+    $("a.delete").click(function () {
+    if (!confirm("Confirm page delete")) return false;
+
     });
-    });
-    </script>
+
+
+    $("table#pages tbody").sortable({
+    items: "tr:not(.home)";
+    placeholder: "ui-state-highlight",
+    update_function () {
+    var ids = $("table#pages tbody").sortable("serialize");
+    var url = "/Admin/Pages/ReorderPages";
+
+    $.post(url, ids, function (data) {});
     }
+    });
+    })
