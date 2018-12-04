@@ -61,22 +61,24 @@ else
     </table>
 }
 @section Scripts{
-    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-    $(function(){
-    $("a.delete").click(function () {
-    if (!confirm("Confirm page delete")) return false;
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js">
+        $(function () {
+            $("a.delete").click(function () {
+                if (!confirm("Confirm page delete")) return false;
 
-    });
+            });
 
 
-    $("table#pages tbody").sortable({
-    items: "tr:not(.home)";
-    placeholder: "ui-state-highlight",
-    update_function () {
-    var ids = $("table#pages tbody").sortable("serialize");
-    var url = "/Admin/Pages/ReorderPages";
+            $("table#pages tbody").sortable({
+                items: "tr:not(.home)";
+                placeholder: "ui-state-highlight",
+                update_function() {
+                    var ids = $("table#pages tbody").sortable("serialize");
+                    var url = "/Admin/Pages/ReorderPages";
 
-    $.post(url, ids, function (data) {});
+                    $.post(url, ids, function (data) { });
+                }
+            });
+        })
+    </script>
     }
-    });
-    })
