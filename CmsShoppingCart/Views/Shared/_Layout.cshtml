@@ -54,7 +54,7 @@
                         }
                         else
                         {
-                            <li>@Html.ActionLink("UserNavPartial", "Account", new { area = "" }, null)</li>
+                            <li>@Html.ActionLink("UserNavPartial", "Account", new { area = "" })</li>
                         }
                     }
                 </ul>
@@ -62,7 +62,7 @@
                 @if (Request.IsAuthenticated && User.IsInRole("Admin"))
                 {
                 <ul class="navbar-collapse collapse navbar-right adminarea">
-                    <li>@Html.ActionLink("Admin Area", "Index", "dashboard", new { area = "Admin" })</li>
+                    <li>@Html.ActionLink("Admin Area", "Index", "dashboard", new { area = "Admin" }, null)</li>
 
                 </ul>
                 }
