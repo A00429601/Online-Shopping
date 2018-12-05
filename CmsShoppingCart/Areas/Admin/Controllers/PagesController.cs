@@ -8,8 +8,7 @@ using System.Web.Mvc;
 
 namespace CmsShoppingCart.Areas.Admin.Controllers
 {
-
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class PagesController : Controller
     {
         // GET: Admin/Pages
@@ -30,17 +29,17 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
         // GET: Admin/Pages/AddPage
         [HttpGet]
-        public ActionResult CreatePage()
+        public ActionResult AddPage()
         {
             return View();
         }
 
         // POST: Admin/Pages/AddPage
         [HttpPost]
-        public ActionResult CreatePage(PageVM model)
+        public ActionResult AddPage(PageVM model)
         {
             // Check model state
-            if (!ModelState.IsValid)
+            if (! ModelState.IsValid)
             {
                 return View(model);
             }
@@ -67,16 +66,16 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 }
 
                 // Make sure title and slug are unique
-                if (db.Pages.Any(x => x.Title == model.Title) || db.Pages.Any(x => x.Slug == slug))
+                if ( db.Pages.Any(x => x.Title == model.Title) || db.Pages.Any(x => x.Slug == slug) )
                 {
-                    ModelState.AddModelError("", "Title or Slug already exists.");
+                    ModelState.AddModelError("", "That title or slug already exists.");
                     return View(model);
                 }
 
                 // DTO the rest
                 dto.Slug = slug;
                 dto.Body = model.Body;
-                dto.HasSideBar = model.HasSidebar;
+                dto.HasSidebar = model.HasSidebar;
                 dto.Sorting = 100;
 
                 // Save DTO
@@ -85,10 +84,10 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             }
 
             // Set TempData message
-            TempData["SM"] = "Created a new page!";
+            TempData["SM"] = "You have added a new page!";
 
             // Redirect
-            return RedirectToAction("CreatePage");
+            return RedirectToAction("AddPage");
         }
 
         // GET: Admin/Pages/EditPage/id
@@ -122,7 +121,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         public ActionResult EditPage(PageVM model)
         {
             // Check model state
-            if (!ModelState.IsValid)
+            if (! ModelState.IsValid)
             {
                 return View(model);
             }
@@ -155,7 +154,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 }
 
                 // Make sure title and slug are unique
-                if (db.Pages.Where(x => x.Id != id).Any(x => x.Title == model.Title) ||
+                if ( db.Pages.Where(x => x.Id != id).Any(x => x.Title == model.Title) ||
                      db.Pages.Where(x => x.Id != id).Any(x => x.Slug == slug))
                 {
                     ModelState.AddModelError("", "That title or slug already exists.");
@@ -165,7 +164,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 // DTO the rest
                 dto.Slug = slug;
                 dto.Body = model.Body;
-                dto.HasSideBar = model.HasSidebar;
+                dto.HasSidebar = model.HasSidebar;
 
                 // Save the DTO
                 db.SaveChanges();
@@ -249,46 +248,46 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         }
 
         // GET: Admin/Pages/EditSidebar
-        [HttpGet]
-        public ActionResult EditSidebar()
-        {
-            // Declare model
-            SidebarVM model;
+    //    [HttpGet]
+    //    public ActionResult EditSidebar()
+    //    {
+    //        // Declare model
+    //        SidebarVM model;
 
-            using (Db db = new Db())
-            {
-                // Get the DTO
-                SidebarDTO dto = db.Sidebar.Find(1);
+    //        using (Db db = new Db())
+    //        {
+    //            // Get the DTO
+    //            SidebarDTO dto = db.Sidebar.Find(1);
 
-                // Init model
-                model = new SidebarVM(dto);
-            }
+    //            // Init model
+    //            model = new SidebarVM(dto);
+    //        }
 
-            // Return view with model
-            return View(model);
-        }
+    //        // Return view with model
+    //        return View(model);
+    //    }
 
-        // POST: Admin/Pages/EditSidebar
-        [HttpPost]
-        public ActionResult EditSidebar(SidebarVM model)
-        {
-            using (Db db = new Db())
-            {
-                // Get the DTO
-                SidebarDTO dto = db.Sidebar.Find(1);
+    //    // POST: Admin/Pages/EditSidebar
+    //    [HttpPost]
+    //    public ActionResult EditSidebar(SidebarVM model)
+    //    {
+    //        using (Db db = new Db())
+    //        {
+    //            // Get the DTO
+    //            SidebarDTO dto = db.Sidebar.Find(1);
 
-                // DTO the body
-                dto.Body = model.Body;
+    //            // DTO the body
+    //            dto.Body = model.Body;
 
-                // Save
-                db.SaveChanges();
-            }
+    //            // Save
+    //            db.SaveChanges();
+    //        }
 
-            // Set TempData message
-            TempData["SM"] = "You have edited the sidebar!";
+    //        // Set TempData message
+    //        TempData["SM"] = "You have edited the sidebar!";
 
-            // Redirect
-            return RedirectToAction("EditSidebar");
-        }
+    //        // Redirect
+    //        return RedirectToAction("EditSidebar");
+    //    }
     }
 }

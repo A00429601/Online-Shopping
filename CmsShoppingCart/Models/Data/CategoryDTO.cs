@@ -11,10 +11,9 @@ namespace CmsShoppingCart.Models.Data
     public class CategoryDTO
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Slug { get; set; }
         public int Sorting { get; set; }
-
     }
 }

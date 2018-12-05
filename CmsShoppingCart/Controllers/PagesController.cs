@@ -24,7 +24,7 @@ namespace CmsShoppingCart.Controllers
             // Check if page exists
             using (Db db = new Db())
             {
-                if (!db.Pages.Any(x => x.Slug.Equals(page)))
+                if (! db.Pages.Any(x => x.Slug.Equals(page)))
                 {
                     return RedirectToAction("Index", new { page = "" });
                 }
@@ -40,7 +40,7 @@ namespace CmsShoppingCart.Controllers
             ViewBag.PageTitle = dto.Title;
 
             // Check for sidebar
-            if (dto.HasSideBar == true)
+            if (dto.HasSidebar == true)
             {
                 ViewBag.Sidebar = "Yes";
             }
@@ -55,7 +55,7 @@ namespace CmsShoppingCart.Controllers
             // Return view with model
             return View(model);
         }
-
+        
         public ActionResult PagesMenuPartial()
         {
             // Declare a list of PageVM

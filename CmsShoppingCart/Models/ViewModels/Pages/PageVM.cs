@@ -21,11 +21,12 @@ namespace CmsShoppingCart.Models.ViewModels.Pages
             Slug = row.Slug;
             Body = row.Body;
             Sorting = row.Sorting;
-            HasSidebar = row.HasSideBar;
+            HasSidebar = row.HasSidebar;
         }
+
         public int Id { get; set; }
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(50, MinimumLength =3)]
         public string Title { get; set; }
         public string Slug { get; set; }
         [Required]

@@ -1,4 +1,4 @@
-﻿ tr:not(.home) {
+﻿table.sorting tr:not(.home) {
     cursor: pointer;
 }
 
@@ -6,22 +6,23 @@
     border: 1px dashed #ccc;
 }
 
-new-cat {
+div.new-cat {
     margin-top: 30px;
     position: relative;
 }
 
-ajax-text {
+span.ajax-text {
     display: none;
 }
 
-categories td {
-    padding: 20px ;
+table.sorting.categories td {
+    padding: 20px !important;
 }
 
 .ajaxdivtd {
     position: absolute;
 }
+
 span.loader {
     display: none;
 }
@@ -34,11 +35,48 @@ span.ajaxmsg {
     position: absolute;
     bottom: 0;
 }
+
 .ajaxcart {
     position: relative;
     top: 5px;
 }
+
 .ib {
     display: inline-block !important;
 }
 
+ul.adminarea {
+    position: relative;
+    top: 15px;
+}
+
+.ajaxbg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: white;
+    display: none;
+    z-index: 1;
+}
+
+.ajaxbg span {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+}
+
+form.paypalform {
+    position: absolute;
+    left: -2000px;
+}
+
+.row {
+    position: relative;
+}
+
+.container body-content {
+    background-image: url('/Content/img/Background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+}

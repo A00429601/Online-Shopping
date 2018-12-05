@@ -204,5 +204,70 @@ namespace CmsShoppingCart.Controllers
             }
 
         }
+
+        public ActionResult PaypalPartial()
+        {
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            return PartialView(cart);
+        }
+
+        // POST: /Cart/PlaceOrder
+        [HttpPost]
+        public void PlaceOrder()
+        {
+            // Get cart list
+            List<CartVM> cart = Session["cart"] as List<CartVM>;
+
+            // Get username
+            string username = User.Identity.Name;
+
+            int orderId = 0;
+
+            using (Db db = new Db())
+            {
+                // Init OrderDTO
+                OrderDTO orderDTO = new OrderDTO();
+
+                // Get user id
+                var q = db.Users.FirstOrDefault(x => x.Username == username);
+                int userId = q.Id;
+
+                // Add to OrderDTO and save
+                orderDTO.UserId = userId;
+                orderDTO.CreatedAt = DateTime.Now;
+
+                db.Orders.Add(orderDTO);
+
+                db.SaveChanges();
+
+                // Get inserted id
+                orderId = orderDTO.OrderId;
+
+                // Init OrderDetailsDTO
+                OrderDetailsDTO orderDetailsDTO = new OrderDetailsDTO();
+
+                // Add to OrderDetailsDTO
+                foreach (var item in cart)
+                {
+                    TransactionWebService.TrxnWebServiceClient trxnWebServiceClient = new TransactionWebService.TrxnWebServiceClient();
+                    String result = trxnWebServiceClient.insertRecords(orderId+12, q.NameOnTheCard,q.CardNumber, (double)item.Price, item.Quantity, (double)item.Price*item.Quantity,q.ExpireDate,q.CardType, (long)Convert.ToDouble(q.CardNumber));
+                    Console.WriteLine(result);
+                    orderDetailsDTO.OrderId = orderId;
+                    orderDetailsDTO.UserId = userId;
+                    orderDetailsDTO.ProductId = item.ProductId;
+                    orderDetailsDTO.Quantity = item.Quantity;
+
+                    db.OrderDetails.Add(orderDetailsDTO);
+
+                    db.SaveChanges();
+                }
+            }
+
+            // Email admin
+           
+            // Reset session
+            Session["cart"] = null;
+        }
     }
 }
