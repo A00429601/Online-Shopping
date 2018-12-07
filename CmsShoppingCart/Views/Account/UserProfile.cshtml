@@ -4,19 +4,14 @@
     ViewBag.Title = "User Profile";
 }
 
-<h2>UserProfile</h2>
+<h2>User Profile</h2>
 
 @if (TempData["SM"] != null)
 {
     <div class="alert alert-success">
         @TempData["SM"]
     </div>
-
 }
-
-
-
-
 
 @using (Html.BeginForm())
 {
@@ -29,7 +24,6 @@
 
         <div class="form-group">
             <label class="control-label col-md-2" for="HasSidebar">First Name</label>
-
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -38,7 +32,6 @@
 
         <div class="form-group">
             <label class="control-label col-md-2" for="HasSidebar">Last Name</label>
-
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -46,9 +39,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2" for="HasSidebar">Emaile</label>
-
-
+            <label class="control-label col-md-2" for="HasSidebar">Email</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
@@ -64,6 +55,45 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.CardType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CardType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CardType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CardNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NameOnTheCard, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NameOnTheCard, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NameOnTheCard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExpireDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ExpireDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExpireDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CVV, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CVV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CVV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
@@ -73,8 +103,6 @@
 
         <div class="form-group">
             <label class="control-label col-md-2" for="HasSidebar">Confirm Password</label>
-
-
             <div class="col-md-10">
                 @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
@@ -87,4 +115,83 @@
             </div>
         </div>
     </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $('#CVV').change(function (event) {
+            debugger;
+            var myRe = /^[0-9]{3,4}$/;
+            var myArray = myRe.exec($(this)[0].value);
+            if ($(this)[0].value != myArray || $(this)[0].value.length > 3) {
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                setTimeout(function () { $("#CVV").focus(); }, 1);
+                alert('Enter a valid value for 0-9');
+                return false;
+            } else {
+                return true;
+            }
+
+        });
+        $('#ExpireDate').change(function (event) {
+            debugger;
+            var expValid = $(this)[0].value.split("/");
+            var errorMsg = "";
+            if (expValid.length != 2) {
+                errorMsg += "Enter a valid Expire Date in MM/YYYY format\n";
+            } else {
+                if (expValid[0] > 12 || expValid[0] < 1)
+                    errorMsg += "Enter a valid Expire Date in MM/YYYY format\n";
+                else if (expValid[1] < 2016 || expValid[1] > 2031)
+                    errorMsg += "Enter a valid Expire Date in MM/YYYY format\n";
+
+            }
+
+            if (errorMsg != "") {
+
+                event.stopImmediatePropagation();
+
+                event.preventDefault();
+                setTimeout(function () { $("#ExpireDate").focus(); }, 1);
+                alert(errorMsg);
+                return false;
+            } else {
+                return true;
+            }
+
+        });
+
+        $('#CardNumber').change(function (event) {
+            debugger;
+            var errorMsg = "";
+            if ($(this)[0].value.trim() == "") {
+                errorMsg += "Enter a valid Credit Card Number\n";
+            } else if ($("#CardType")[0].value == "Master Card") {
+                if ($(this)[0].value.slice(0, 2) > 55 || $(this)[0].value.slice(0, 2) < 51 || $(this)[0].value.length != 15)
+                    errorMsg += "Enter a valid Credit Card Number\n";
+            } else if ($("#CardType")[0].value == "Visa") {
+                if ($(this)[0].value.slice(0, 1) != 4 || $(this)[0].value.length != 15)
+                    errorMsg += "Enter a valid Credit Card Number\n";
+            } else if ($("#CardType")[0].value == "American Express") {
+                if (($(this)[0].value.slice(0, 2) != 34 && $(this)[0].value.slice(0, 1) != 37) || $(this)[0].value.length != 14)
+                    errorMsg += "Enter a valid Credit Card Number\n";
+            } else if ($("#CardType")[0].value == "Select Card Type") {
+                    errorMsg += "Select a Card Type\n";
+            }
+
+            if (errorMsg != "") {
+
+                event.stopImmediatePropagation();
+
+                event.preventDefault();
+                setTimeout(function () { $("#CardNumber").focus(); }, 1);
+                alert(errorMsg);
+                return false;
+            } else {
+                return true;
+            }
+
+        });
+    </script>
 }

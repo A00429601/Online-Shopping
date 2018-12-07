@@ -11,33 +11,57 @@ namespace CmsShoppingCart.Models.ViewModels.Account
     {
         public UserVM()
         {
-
         }
-        public UserVM (UserDTO row)
+
+        public UserVM(UserDTO row)
         {
             Id = row.Id;
             FirstName = row.FirstName;
             LastName = row.LastName;
             EmailAddress = row.EmailAddress;
-            Password = row.Password;
             Username = row.Username;
             Password = row.Password;
+            CardNumber = row.CardNumber;
+            CardType = row.CardType;
+            ExpireDate = row.ExpireDate;
+            NameOnTheCard = row.NameOnTheCard;
+            CVV = row.CVV;
 
         }
+
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "First name is required and no special Characters are allowed")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Last Name is required and no special Characters are allowed")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
         public string LastName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email Address should be valid")]
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
-        [Required]
+        [Required(ErrorMessage = "User Name is required and no special Characters are allowed")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Card Type is required and no special Characters are allowed")]
+        public String CardType { get; set; }
+        [Required(ErrorMessage = "Card Number is required and no special Characters are allowed")]
+        public string CardNumber { get; set; }
+        [Required(ErrorMessage = "Name on the card is required and no special Characters are allowed")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
+        public string NameOnTheCard { get; set; }
+        [Required(ErrorMessage = "Expire Date is required")]
+        public string ExpireDate { get; set; }
+        [Required(ErrorMessage = "CVV is required and no special Characters are allowed")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
+        public string CVV { get; set; }
         public string Password { get; set; }
-        [Required]
         public string ConfirmPassword { get; set; }
-
+      
+    }
+    public enum cardValue
+    {
+        MasterCard,
+        Visa,
+        AmericanExpress
     }
 }

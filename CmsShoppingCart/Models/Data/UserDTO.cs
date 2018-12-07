@@ -17,9 +17,11 @@ namespace CmsShoppingCart.Models.Data
         public string EmailAddress { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-
-
-
-
+        public string CardNumber { get; set; }
+        public string CardType { get; set; }
+        public string NameOnTheCard { get; set; }
+        public string ExpireDate { get; set; }
+        public string CVV { get; set; }
+        
     }
 }

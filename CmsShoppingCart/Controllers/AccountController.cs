@@ -1,5 +1,6 @@
 ﻿using CmsShoppingCart.Models.Data;
 using CmsShoppingCart.Models.ViewModels.Account;
+using CmsShoppingCart.Models.ViewModels.Shop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,45 +17,47 @@ namespace CmsShoppingCart.Controllers
         {
             return Redirect("~/account/login");
         }
-       
-        // GET: /Account/login
+
+        // GET: /account/login
         [HttpGet]
         public ActionResult Login()
         {
-            //Confirm user is not logged in
+            // Confirm user is not logged in
+
             string username = User.Identity.Name;
 
             if (!string.IsNullOrEmpty(username))
                 return RedirectToAction("user-profile");
 
-            //Return View
+            // Return view
             return View();
         }
 
-
-        // POST: /Account/login
+        // POST: /account/login
         [HttpPost]
         public ActionResult Login(LoginUserVM model)
         {
-            //Check model state
-            if(!ModelState.IsValid)
+            // Check model state
+            if (! ModelState.IsValid)
             {
                 return View(model);
             }
 
-            //Check if the user is valid
+            // Check if the user is valid
+
             bool isValid = false;
+
             using (Db db = new Db())
             {
-                if (db.Users.Any(x=> x.Username.Equals(model.Username)&& x.Password.Equals(model.Password)))
+                if (db.Users.Any(x => x.Username.Equals(model.Username) && x.Password.Equals(model.Password)))
                 {
                     isValid = true;
-
                 }
             }
-            if(!isValid)
+
+            if (! isValid)
             {
-                ModelState.AddModelError("", "Invalid Username or password.");
+                ModelState.AddModelError("", "Invalid username or password.");
                 return View(model);
             }
             else
@@ -62,204 +65,180 @@ namespace CmsShoppingCart.Controllers
                 FormsAuthentication.SetAuthCookie(model.Username, model.RememberMe);
                 return Redirect(FormsAuthentication.GetRedirectUrl(model.Username, model.RememberMe));
             }
-            //
-
         }
-        // GET: /Account/create-account
-        [ActionName("CreateAccount")]
+
+        // GET: /account/create-account
+        [ActionName("create-account")]
         [HttpGet]
         public ActionResult CreateAccount()
         {
             return View("CreateAccount");
         }
-        // Post: /Account/create-account
-        [ActionName("CreateAccount")]
+
+        // POST: /account/create-account
+        [ActionName("create-account")]
         [HttpPost]
         public ActionResult CreateAccount(UserVM model)
         {
-           //check model state
-           if(!ModelState.IsValid)
+            // Check model state
+            if (!ModelState.IsValid)
             {
                 return View("CreateAccount", model);
-
             }
 
-            //check if psswords match
-            if(!model.Password.Equals(model.ConfirmPassword))
+            // Check if passwords match
+            if (!model.Password.Equals(model.ConfirmPassword))
             {
-                ModelState.AddModelError("", "PAsswords do not match");
+                ModelState.AddModelError("", "Passwords do not match.");
                 return View("CreateAccount", model);
-
             }
 
             using (Db db = new Db())
             {
-
-                if (db.Users.Any(x=>x.Username.Equals(model.Username)))
+                // Make sure username is unique
+                if (db.Users.Any(x => x.Username.Equals(model.Username)))
                 {
-                    ModelState.AddModelError("", "Username" + model.Username +"is taken.");
+                    ModelState.AddModelError("", "Username " + model.Username + " is taken.");
                     model.Username = "";
                     return View("CreateAccount", model);
                 }
-                //Make sure username is unique
 
-                //create userDTO
+                // Create userDTO
                 UserDTO userDTO = new UserDTO()
                 {
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     EmailAddress = model.EmailAddress,
                     Username = model.Username,
-                    Password = model.Password
-
-
+                    Password = model.Password,
+                    CardNumber =model.CardNumber,
+                    CardType =model.CardType,
+                    NameOnTheCard = model.NameOnTheCard,
+                    ExpireDate = model.ExpireDate,
+                    CVV = model.CVV
                 };
 
-
-                //Add DTO
+                // Add the DTO
                 db.Users.Add(userDTO);
 
-                //Save
+                // Save
                 db.SaveChanges();
 
-                //Add to UserRolesDTO
+                // Add to UserRolesDTO
                 int id = userDTO.Id;
+
                 UserRoleDTO userRolesDTO = new UserRoleDTO()
                 {
                     UserId = id,
-                    RoleId =  2
+                    RoleId = 2
                 };
 
                 db.UserRoles.Add(userRolesDTO);
                 db.SaveChanges();
-
             }
-            //Cretate a TempData message
-            TempData["SM"] = "You are now registered and can login";
 
-            //Redirect
+            // Create a TempData message
+            TempData["SM"] = "You are now registered and can login.";
+
+            // Redirect
             return Redirect("~/account/login");
-
         }
 
-        //Get: /account/logout
+        // GET: /account/Logout
+        [Authorize]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
             return Redirect("~/account/login");
-    
-
         }
 
-      
+        [Authorize]
         public ActionResult UserNavPartial()
         {
-
-            //Get username
+            // Get username
             string username = User.Identity.Name;
 
-            //Declare model
-            UserNavPartialVM model;
-
-            using (Db db = new Db())
-                {
-                //Get the user
-
-                UserDTO dto = db.Users.FirstOrDefault(x => x.Username == username);
-
-                //Build the Model
-                model = new UserNavPartialVM()
-                {
-                    FirstName=dto.FirstName,
-                    LasttName=dto.LastName,
-
-
-                };
-
-
-            }
-
-
-
-
-            //Return partial View with model
-            return PartialView(model);
-
-
-
-
-
-        }
-
-        [HttpGet]
-        [ActionName("user-profile")]
-        public ActionResult UserProfile ()
-        {
-            //Get Username
-            string username = User.Identity.Name;
-
-
-            //Declare model
+            // Declare model
             UserNavPartialVM model;
 
             using (Db db = new Db())
             {
-                //Get user
-
+                // Get the user
                 UserDTO dto = db.Users.FirstOrDefault(x => x.Username == username);
-                //Build model
+
+                // Build the model
+                model = new UserNavPartialVM()
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName
+                };
+            }
+
+            // Return partial view with model
+            return PartialView(model);
+        }
+
+        // GET: /account/user-profile
+        [HttpGet]
+        [ActionName("user-profile")]
+        [Authorize]
+        public ActionResult UserProfile()
+        {
+            // Get username
+            string username = User.Identity.Name;
+
+            // Declare model
+            UserProfileVM model;
+
+            using (Db db = new Db())
+            {
+                // Get user
+                UserDTO dto = db.Users.FirstOrDefault(x => x.Username == username);
+
+                // Build model
                 model = new UserProfileVM(dto);
             }
 
-
-
-
-            // Return View with model
-
+            // Return view with model
             return View("UserProfile", model);
-
         }
 
-        //POST : /account/user-profile
+        // POST: /account/user-profile
         [HttpPost]
         [ActionName("user-profile")]
+        [Authorize]
         public ActionResult UserProfile(UserProfileVM model)
         {
-            //Check model state
-
+            // Check model state
             if (!ModelState.IsValid)
             {
                 return View("UserProfile", model);
-
             }
-            //check if passwords match if need be
 
+            // Check if passwords match if need be
             if (!string.IsNullOrWhiteSpace(model.Password))
             {
-                if(!model.Password.Equals(model.ConfirmPassword))
+                if (!model.Password.Equals(model.ConfirmPassword))
                 {
-                    ModelState.AddModelError("", "Passwords do not match");
+                    ModelState.AddModelError("", "Passwords do not match.");
                     return View("UserProfile", model);
-
                 }
             }
 
-
             using (Db db = new Db())
             {
-
-
-                //Get username
+                // Get username
                 string username = User.Identity.Name;
-                //Make sure Username is unique
-                if (db.Users.Where(x=>x.Id != model.Id).Any(x=>x.Username == username))
+
+                // Make sure username is unique
+                if (db.Users.Where(x => x.Id != model.Id).Any(x => x.Username == username))
                 {
-                    ModelState.AddModelError("", "Username" +model.Username +"alreasy exists");
+                    ModelState.AddModelError("", "Username " + model.Username + " already exists.");
                     model.Username = "";
                     return View("UserProfile", model);
                 }
 
-                //Edit DTO
+                // Edit DTO
                 UserDTO dto = db.Users.Find(model.Id);
 
                 dto.FirstName = model.FirstName;
@@ -272,17 +251,78 @@ namespace CmsShoppingCart.Controllers
                     dto.Password = model.Password;
                 }
 
-
-                //Save
+                // Save
                 db.SaveChanges();
             }
-            //Set TempData message
-            TempData["SM"] = "You have edited your profile.";
 
+            // Set TempData message
+            TempData["SM"] = "You have edited your profile!";
 
-                //Redirect
-                return Redirect("~/account/user-profile");
+            // Redirect
+            return Redirect("~/account/user-profile");
+        }
 
+        // GET: /account/Orders
+        [Authorize(Roles="User")]
+        public ActionResult Orders()
+        {
+            // Init list of OrdersForUserVM
+            List<OrdersForUserVM> ordersForUser = new List<OrdersForUserVM>();
+
+            using (Db db = new Db())
+            {
+                // Get user id
+                UserDTO user = db.Users.Where(x => x.Username == User.Identity.Name).FirstOrDefault();
+                int userId = user.Id;
+
+                // Init list of OrderVM
+                List<OrderVM> orders = db.Orders.Where(x => x.UserId == userId).ToArray().Select(x => new OrderVM(x)).ToList();
+
+                // Loop through list of OrderVM
+                foreach (var order in orders)
+                {
+                    // Init products dict
+                    Dictionary<string, int> productsAndQty = new Dictionary<string, int>();
+
+                    // Declare total
+                    decimal total = 0m;
+
+                    // Init list of OrderDetailsDTO
+                    List<OrderDetailsDTO> orderDetailsDTO = db.OrderDetails.Where(x => x.OrderId == order.OrderId).ToList();
+
+                    // Loop though list of OrderDetailsDTO
+                    foreach (var orderDetails in orderDetailsDTO)
+                    {
+                        // Get product
+                        ProductDTO product = db.Products.Where(x => x.Id == orderDetails.ProductId).FirstOrDefault();
+
+                        // Get product price
+                        decimal price = product.Price;
+
+                        // Get product name
+                        string productName = product.Name;
+
+                        // Add to products dict
+                        productsAndQty.Add(productName, orderDetails.Quantity);
+
+                        // Get total
+                        total += orderDetails.Quantity * price;
+                    }
+
+                    // Add to OrdersForUserVM list
+                    ordersForUser.Add(new OrdersForUserVM()
+                    {
+                        OrderNumber = order.OrderId,
+                        Total = total,
+                        ProductsAndQty = productsAndQty,
+                        CreatedAt = order.CreatedAt
+                    });
+                }
+
+            }
+
+            // Return view with list of OrdersForUserVM
+            return View(ordersForUser);
         }
     }
 }

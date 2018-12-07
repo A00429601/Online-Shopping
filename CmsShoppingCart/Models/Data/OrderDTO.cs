@@ -11,10 +11,9 @@ namespace CmsShoppingCart.Models.Data
     public class OrderDTO
     {
         [Key]
-        public int OrderId{ get; set; }
+        public int OrderId { get; set; }
         public int UserId { get; set; }
         public DateTime CreatedAt { get; set; }
-
 
         [ForeignKey("UserId")]
         public virtual UserDTO Users { get; set; }

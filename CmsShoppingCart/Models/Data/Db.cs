@@ -18,6 +18,8 @@ namespace CmsShoppingCart.Models.Data
         public DbSet<OrderDTO> Orders { get; set; }
         public DbSet<OrderDetailsDTO> OrderDetails { get; set; }
 
+        public System.Data.Entity.DbSet<CmsShoppingCart.Models.Data.TransactionDTO> TransactionDTOes { get; set; }
 
+        public System.Data.Entity.DbSet<CmsShoppingCart.Models.ViewModels.Account.UserVM> UserVMs { get; set; }
     }
 }

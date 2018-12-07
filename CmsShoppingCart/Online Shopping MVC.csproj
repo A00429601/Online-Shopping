@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2F69B4A8-5685-48D7-A563-E03332C28A98}</ProjectGuid>
+    <ProjectGuid>{AE7C75A3-7301-4830-8016-E9A55857F67D}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -16,7 +18,6 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <Use64BitIISExpress />
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -24,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
@@ -50,16 +51,25 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -85,70 +95,43 @@
     </Reference>
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
-      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
     <Reference Include="Antlr3.Runtime">
       <Private>True</Private>
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Diagnostics.DiagnosticSource">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNet.TelemetryCorrelation">
-      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.0\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.5.1\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.Agent.Intercept">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.4.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.DependencyCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.5.1\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.PerfCounterCollector">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.5.1\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.ServerTelemetryChannel">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.5.1\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.WindowsServer">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.5.1\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AI.Web">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -159,10 +142,16 @@
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\PagesController.cs" />
     <Compile Include="Areas\Admin\Controllers\ShopController.cs" />
+    <Compile Include="Connected Services\TransactionWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\PagesController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -174,9 +163,11 @@
     <Compile Include="Models\Data\ProductDTO.cs" />
     <Compile Include="Models\Data\RoleDTO.cs" />
     <Compile Include="Models\Data\SidebarDTO.cs" />
+    <Compile Include="Models\Data\TransactionDTO.cs" />
     <Compile Include="Models\Data\UserDTO.cs" />
     <Compile Include="Models\Data\UserRoleDTO.cs" />
     <Compile Include="Models\ViewModels\Account\LoginUserVM.cs" />
+    <Compile Include="Models\ViewModels\Account\OrdersForUserVM.cs" />
     <Compile Include="Models\ViewModels\Account\UserNavPartialVM.cs" />
     <Compile Include="Models\ViewModels\Account\UserProfileVM.cs" />
     <Compile Include="Models\ViewModels\Account\UserVM.cs" />
@@ -184,7 +175,9 @@
     <Compile Include="Models\ViewModels\Pages\PageVM.cs" />
     <Compile Include="Models\ViewModels\Pages\SidebarVM.cs" />
     <Compile Include="Models\ViewModels\Shop\CategoryVM.cs" />
+    <Compile Include="Models\ViewModels\Shop\OrderVM.cs" />
     <Compile Include="Models\ViewModels\Shop\ProductVM.cs" />
+    <Compile Include="Models\ViewModels\Shop\TransactionVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -192,8 +185,36 @@
     <Content Include="App_Data\CmsShoppingCart_log.ldf">
       <DependentUpon>CmsShoppingCart.mdf</DependentUpon>
     </Content>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\AddPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\EditPage.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\PageDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shop\AddProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Shop\Categories.cshtml" />
+    <Content Include="Areas\Admin\Views\Shop\EditProduct.cshtml" />
+    <Content Include="Areas\Admin\Views\Shop\Products.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Connected Services\TransactionWebService\CmsShoppingCart.TransactionWebService.deleteResultsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\TransactionWebService\CmsShoppingCart.TransactionWebService.getTransactionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\TransactionWebService\CmsShoppingCart.TransactionWebService.insertRecordsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\TransactionWebService\CmsShoppingCart.TransactionWebService.updateTransactionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\TransactionWebService\configuration91.svcinfo" />
+    <None Include="Connected Services\TransactionWebService\configuration.svcinfo" />
+    <None Include="Connected Services\TransactionWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fancybox\blank.gif" />
@@ -209,334 +230,103 @@
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fileman\css\images\animated-overlay.gif" />
-    <Content Include="fileman\css\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="fileman\css\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="fileman\css\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="fileman\css\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="fileman\css\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="fileman\css\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="fileman\css\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="fileman\css\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="fileman\css\images\ui-icons_222222_256x240.png" />
-    <Content Include="fileman\css\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="fileman\css\images\ui-icons_454545_256x240.png" />
-    <Content Include="fileman\css\images\ui-icons_888888_256x240.png" />
-    <Content Include="fileman\css\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="fileman\css\jquery-ui-1.10.4.custom.css" />
-    <Content Include="fileman\css\jquery-ui-1.10.4.custom.min.css" />
-    <Content Include="fileman\css\main.css" />
-    <Content Include="fileman\css\main.min.css" />
-    <Content Include="fileman\dev.html" />
-    <Content Include="fileman\images\action-folder-paste.png" />
-    <Content Include="fileman\images\action-folder-rename.png" />
-    <Content Include="fileman\images\arrow_down.png" />
-    <Content Include="fileman\images\arrow_up.png" />
-    <Content Include="fileman\images\blank.gif" />
-    <Content Include="fileman\images\copy.png" />
-    <Content Include="fileman\images\cut.png" />
-    <Content Include="fileman\images\dir-minus.png" />
-    <Content Include="fileman\images\dir-plus.png" />
-    <Content Include="fileman\images\file-add.png" />
-    <Content Include="fileman\images\file-delete.png" />
-    <Content Include="fileman\images\file-download.png" />
-    <Content Include="fileman\images\file-duplicate.png" />
-    <Content Include="fileman\images\file-upload.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_3gp.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_7z.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ace.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ai.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_aif.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_aiff.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_amr.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_asf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_asx.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_bat.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_bin.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_bmp.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_bup.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_cab.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_cbr.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_cda.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_cdl.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_cdr.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_chm.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dat.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_divx.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dll.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dmg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_doc.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dss.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dvf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_dwg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_eml.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_eps.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_exe.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_fla.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_flv.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_gif.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_gz.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_hqx.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_htm.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_html.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ifo.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_indd.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_iso.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_jar.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_jpeg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_jpg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_lnk.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_log.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_m4a.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_m4b.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_m4p.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_m4v.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mcd.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mdb.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mid.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mov.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mp2.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mp3.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mp4.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mpeg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mpg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_msi.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_mswmm.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ogg.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_pdf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_png.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_pps.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ps.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_psd.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_pst.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ptb.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_pub.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_qbb.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_qbw.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_qxd.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ram.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_rar.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_rm.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_rmvb.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_rtf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_sea.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ses.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_sit.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_sitx.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ss.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_swf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_tgz.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_thm.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_tif.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_tmp.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_torrent.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_ttf.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_txt.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_vcd.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_vob.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_wav.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_wma.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_wmv.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_wps.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_xls.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_xpi.png" />
-    <Content Include="fileman\images\filetypes\big\file_extension_zip.png" />
-    <Content Include="fileman\images\filetypes\big\unknown.png" />
-    <Content Include="fileman\images\filetypes\file_extension_3gp.png" />
-    <Content Include="fileman\images\filetypes\file_extension_7z.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ace.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ai.png" />
-    <Content Include="fileman\images\filetypes\file_extension_aif.png" />
-    <Content Include="fileman\images\filetypes\file_extension_aiff.png" />
-    <Content Include="fileman\images\filetypes\file_extension_amr.png" />
-    <Content Include="fileman\images\filetypes\file_extension_asf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_asx.png" />
-    <Content Include="fileman\images\filetypes\file_extension_bat.png" />
-    <Content Include="fileman\images\filetypes\file_extension_bin.png" />
-    <Content Include="fileman\images\filetypes\file_extension_bmp.png" />
-    <Content Include="fileman\images\filetypes\file_extension_bup.png" />
-    <Content Include="fileman\images\filetypes\file_extension_cab.png" />
-    <Content Include="fileman\images\filetypes\file_extension_cbr.png" />
-    <Content Include="fileman\images\filetypes\file_extension_cda.png" />
-    <Content Include="fileman\images\filetypes\file_extension_cdl.png" />
-    <Content Include="fileman\images\filetypes\file_extension_cdr.png" />
-    <Content Include="fileman\images\filetypes\file_extension_chm.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dat.png" />
-    <Content Include="fileman\images\filetypes\file_extension_divx.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dll.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dmg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_doc.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dss.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dvf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_dwg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_eml.png" />
-    <Content Include="fileman\images\filetypes\file_extension_eps.png" />
-    <Content Include="fileman\images\filetypes\file_extension_exe.png" />
-    <Content Include="fileman\images\filetypes\file_extension_fla.png" />
-    <Content Include="fileman\images\filetypes\file_extension_flv.png" />
-    <Content Include="fileman\images\filetypes\file_extension_gif.png" />
-    <Content Include="fileman\images\filetypes\file_extension_gz.png" />
-    <Content Include="fileman\images\filetypes\file_extension_hqx.png" />
-    <Content Include="fileman\images\filetypes\file_extension_htm.png" />
-    <Content Include="fileman\images\filetypes\file_extension_html.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ifo.png" />
-    <Content Include="fileman\images\filetypes\file_extension_indd.png" />
-    <Content Include="fileman\images\filetypes\file_extension_iso.png" />
-    <Content Include="fileman\images\filetypes\file_extension_jar.png" />
-    <Content Include="fileman\images\filetypes\file_extension_jpeg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_jpg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_lnk.png" />
-    <Content Include="fileman\images\filetypes\file_extension_log.png" />
-    <Content Include="fileman\images\filetypes\file_extension_m4a.png" />
-    <Content Include="fileman\images\filetypes\file_extension_m4b.png" />
-    <Content Include="fileman\images\filetypes\file_extension_m4p.png" />
-    <Content Include="fileman\images\filetypes\file_extension_m4v.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mcd.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mdb.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mid.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mov.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mp2.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mp3.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mp4.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mpeg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mpg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_msi.png" />
-    <Content Include="fileman\images\filetypes\file_extension_mswmm.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ogg.png" />
-    <Content Include="fileman\images\filetypes\file_extension_pdf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_png.png" />
-    <Content Include="fileman\images\filetypes\file_extension_pps.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ps.png" />
-    <Content Include="fileman\images\filetypes\file_extension_psd.png" />
-    <Content Include="fileman\images\filetypes\file_extension_pst.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ptb.png" />
-    <Content Include="fileman\images\filetypes\file_extension_pub.png" />
-    <Content Include="fileman\images\filetypes\file_extension_qbb.png" />
-    <Content Include="fileman\images\filetypes\file_extension_qbw.png" />
-    <Content Include="fileman\images\filetypes\file_extension_qxd.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ram.png" />
-    <Content Include="fileman\images\filetypes\file_extension_rar.png" />
-    <Content Include="fileman\images\filetypes\file_extension_rm.png" />
-    <Content Include="fileman\images\filetypes\file_extension_rmvb.png" />
-    <Content Include="fileman\images\filetypes\file_extension_rtf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_sea.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ses.png" />
-    <Content Include="fileman\images\filetypes\file_extension_sit.png" />
-    <Content Include="fileman\images\filetypes\file_extension_sitx.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ss.png" />
-    <Content Include="fileman\images\filetypes\file_extension_swf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_tgz.png" />
-    <Content Include="fileman\images\filetypes\file_extension_thm.png" />
-    <Content Include="fileman\images\filetypes\file_extension_tif.png" />
-    <Content Include="fileman\images\filetypes\file_extension_tmp.png" />
-    <Content Include="fileman\images\filetypes\file_extension_torrent.png" />
-    <Content Include="fileman\images\filetypes\file_extension_ttf.png" />
-    <Content Include="fileman\images\filetypes\file_extension_txt.png" />
-    <Content Include="fileman\images\filetypes\file_extension_vcd.png" />
-    <Content Include="fileman\images\filetypes\file_extension_vob.png" />
-    <Content Include="fileman\images\filetypes\file_extension_wav.png" />
-    <Content Include="fileman\images\filetypes\file_extension_wma.png" />
-    <Content Include="fileman\images\filetypes\file_extension_wmv.png" />
-    <Content Include="fileman\images\filetypes\file_extension_wps.png" />
-    <Content Include="fileman\images\filetypes\file_extension_xls.png" />
-    <Content Include="fileman\images\filetypes\file_extension_xpi.png" />
-    <Content Include="fileman\images\filetypes\file_extension_zip.png" />
-    <Content Include="fileman\images\filetypes\unknown.png" />
-    <Content Include="fileman\images\find.png" />
-    <Content Include="fileman\images\folder-add.png" />
-    <Content Include="fileman\images\folder-delete.png" />
-    <Content Include="fileman\images\folder-download.png" />
-    <Content Include="fileman\images\folder-green.png" />
-    <Content Include="fileman\images\folder-opened.png" />
-    <Content Include="fileman\images\folder.png" />
-    <Content Include="fileman\images\loading-dir.gif" />
-    <Content Include="fileman\images\loading.gif" />
-    <Content Include="fileman\images\paste.png" />
-    <Content Include="fileman\images\preview.png" />
-    <Content Include="fileman\images\remove-upload - Copy.png" />
-    <Content Include="fileman\images\remove-upload.png" />
-    <Content Include="fileman\images\rename.png" />
-    <Content Include="fileman\images\search.png" />
-    <Content Include="fileman\images\select.png" />
-    <Content Include="fileman\images\sprite.png" />
-    <Content Include="fileman\images\stripes-reverse.gif" />
-    <Content Include="fileman\images\stripes.gif" />
-    <Content Include="fileman\images\upload-big.png" />
-    <Content Include="fileman\images\view-list.png" />
-    <Content Include="fileman\images\view-tile.png" />
-    <Content Include="fileman\index.html" />
-    <Content Include="fileman\js\custom.js" />
-    <Content Include="fileman\js\directory.js" />
-    <Content Include="fileman\js\file.js" />
-    <Content Include="fileman\js\filetypes.js" />
-    <Content Include="fileman\js\jquery-1.10.2.min.js" />
-    <Content Include="fileman\js\jquery-1.11.1.min.js" />
-    <Content Include="fileman\js\jquery-2.1.1.min.js" />
-    <Content Include="fileman\js\jquery-dateFormat.min.js" />
-    <Content Include="fileman\js\jquery-ui-1.10.4.custom.min.js" />
-    <Content Include="fileman\js\main.js" />
-    <Content Include="fileman\js\main.min.js" />
-    <Content Include="fileman\js\mini-main.js" />
-    <Content Include="fileman\js\tiny_mce_popup.js" />
-    <Content Include="fileman\js\utils.js" />
-    <Content Include="fileman\LICENSE.txt" />
-    <Content Include="fileman\third-party.txt" />
-    <Content Include="fileman\Uploads\Images\DSC_2987.jpg" />
-    <Content Include="fileman\Uploads\Images\DSC_5744.jpg" />
-    <Content Include="fileman\Uploads\LICENSE.txt" />
-    <Content Include="fileman\Uploads\roxy-fileman-logo.gif" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Uploads\Products\22\blue1.jpg" />
+    <Content Include="Images\Uploads\Products\22\Gallery\blue2.jpg" />
+    <Content Include="Images\Uploads\Products\22\Gallery\blue3.png" />
+    <Content Include="Images\Uploads\Products\22\Gallery\blue4.png" />
+    <Content Include="Images\Uploads\Products\22\Gallery\Thumbs\blue2.jpg" />
+    <Content Include="Images\Uploads\Products\22\Gallery\Thumbs\blue3.png" />
+    <Content Include="Images\Uploads\Products\22\Gallery\Thumbs\blue4.png" />
+    <Content Include="Images\Uploads\Products\22\Thumbs\blue1.jpg" />
+    <Content Include="Images\Uploads\Products\23\Gallery\red2.png" />
+    <Content Include="Images\Uploads\Products\23\Gallery\red3.png" />
+    <Content Include="Images\Uploads\Products\23\Gallery\red4.png" />
+    <Content Include="Images\Uploads\Products\23\Gallery\Thumbs\red2.png" />
+    <Content Include="Images\Uploads\Products\23\Gallery\Thumbs\red3.png" />
+    <Content Include="Images\Uploads\Products\23\Gallery\Thumbs\red4.png" />
+    <Content Include="Images\Uploads\Products\23\red1.jpg" />
+    <Content Include="Images\Uploads\Products\23\Thumbs\red1.jpg" />
+    <Content Include="Images\Uploads\Products\24\Gallery\green2.png" />
+    <Content Include="Images\Uploads\Products\24\Gallery\green3.png" />
+    <Content Include="Images\Uploads\Products\24\Gallery\green4.png" />
+    <Content Include="Images\Uploads\Products\24\Gallery\Thumbs\green2.png" />
+    <Content Include="Images\Uploads\Products\24\Gallery\Thumbs\green3.png" />
+    <Content Include="Images\Uploads\Products\24\Gallery\Thumbs\green4.png" />
+    <Content Include="Images\Uploads\Products\24\green1.png" />
+    <Content Include="Images\Uploads\Products\24\Thumbs\green1.png" />
+    <Content Include="Images\Uploads\Products\25\Gallery\Thumbs\yellow2.jpg" />
+    <Content Include="Images\Uploads\Products\25\Gallery\Thumbs\yellow3.jpg" />
+    <Content Include="Images\Uploads\Products\25\Gallery\Thumbs\yellow4.jpg" />
+    <Content Include="Images\Uploads\Products\25\Gallery\yellow2.jpg" />
+    <Content Include="Images\Uploads\Products\25\Gallery\yellow3.jpg" />
+    <Content Include="Images\Uploads\Products\25\Gallery\yellow4.jpg" />
+    <Content Include="Images\Uploads\Products\25\Thumbs\yellow1.png" />
+    <Content Include="Images\Uploads\Products\25\yellow1.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\pink2.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\pink3.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\pink4.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\Thumbs\pink2.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\Thumbs\pink3.png" />
+    <Content Include="Images\Uploads\Products\26\Gallery\Thumbs\pink4.png" />
+    <Content Include="Images\Uploads\Products\26\pink1.png" />
+    <Content Include="Images\Uploads\Products\26\Thumbs\pink1.png" />
+    <Content Include="Images\Uploads\Products\27\apple1.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\apple2.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\apple3.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\apple4.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\Thumbs\apple2.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\Thumbs\apple3.jpg" />
+    <Content Include="Images\Uploads\Products\27\Gallery\Thumbs\apple4.jpg" />
+    <Content Include="Images\Uploads\Products\27\Thumbs\apple1.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\grapefruit2.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\grapefruit3.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\grapefruit4.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\Thumbs\grapefruit2.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\Thumbs\grapefruit3.jpg" />
+    <Content Include="Images\Uploads\Products\28\Gallery\Thumbs\grapefruit4.jpg" />
+    <Content Include="Images\Uploads\Products\28\grapefruit1.jpg" />
+    <Content Include="Images\Uploads\Products\28\Thumbs\grapefruit1.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\grapes2.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\grapes3.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\grapes4.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\Thumbs\grapes2.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\Thumbs\grapes3.jpg" />
+    <Content Include="Images\Uploads\Products\29\Gallery\Thumbs\grapes4.jpg" />
+    <Content Include="Images\Uploads\Products\29\grapes1.jpg" />
+    <Content Include="Images\Uploads\Products\29\Thumbs\grapes1.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\mand2.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\mand3.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\mand4.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\Thumbs\mand2.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\Thumbs\mand3.jpg" />
+    <Content Include="Images\Uploads\Products\30\Gallery\Thumbs\mand4.jpg" />
+    <Content Include="Images\Uploads\Products\30\mand1.jpg" />
+    <Content Include="Images\Uploads\Products\30\Thumbs\mand1.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\orange2.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\orange3.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\orange4.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\Thumbs\orange2.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\Thumbs\orange3.jpg" />
+    <Content Include="Images\Uploads\Products\31\Gallery\Thumbs\orange4.jpg" />
+    <Content Include="Images\Uploads\Products\31\orange1.jpg" />
+    <Content Include="Images\Uploads\Products\31\Thumbs\orange1.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\CreatePage.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\EditPage.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\EditSidebar.cshtml" />
-    <Content Include="Areas\Admin\Views\Pages\PageDetails.cshtml" />
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
-    <Content Include="Scripts\ckeditor\ckeditor.pack" />
-    <Content Include="fileman\asp_net\main.ashx" />
-    <Content Include="fileman\conf.json" />
-    <Content Include="fileman\lang\bg.json" />
-    <Content Include="fileman\lang\ca.json" />
-    <Content Include="fileman\lang\cs.json" />
-    <Content Include="fileman\lang\cs1.json" />
-    <Content Include="fileman\lang\da.json" />
-    <Content Include="fileman\lang\de.json" />
-    <Content Include="fileman\lang\en.json" />
-    <Content Include="fileman\lang\es.json" />
-    <Content Include="fileman\lang\fr.json" />
-    <Content Include="fileman\lang\hu.json" />
-    <Content Include="fileman\lang\it.json" />
-    <Content Include="fileman\lang\nl.json" />
-    <Content Include="fileman\lang\pl.json" />
-    <Content Include="fileman\lang\pt.json" />
-    <Content Include="fileman\lang\ru.json" />
-    <Content Include="fileman\lang\sk.json" />
-    <Content Include="fileman\lang\tr.json" />
-    <Content Include="fileman\web.config" />
-    <Content Include="Areas\Admin\Views\Shop\Categories.cshtml" />
-    <Content Include="Areas\Admin\Views\Shop\AddProduct.cshtml" />
-    <Content Include="Areas\Admin\Views\Shop\Products.cshtml" />
-    <Content Include="Areas\Admin\Views\Shop\EditProduct.cshtml" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\ckeditor\ckeditor.php" />
     <Content Include="Scripts\ckeditor\ckeditor_basic.js" />
     <Content Include="Scripts\ckeditor\ckeditor_basic_source.js" />
-    <Content Include="Scripts\ckeditor\ckeditor_php4.php" />
     <Content Include="Scripts\ckeditor\ckeditor_php5.php" />
+    <Content Include="Scripts\ckeditor\ckeditor_php4.php" />
+    <Content Include="Scripts\ckeditor\ckeditor.php" />
+    <Content Include="Scripts\ckeditor\ckeditor.pack" />
+    <None Include="Connected Services\TransactionWebService\TrxnWebService.wsdl" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
     <Content Include="Scripts\ckeditor\config.js" />
     <Content Include="Scripts\ckeditor\contents.css" />
@@ -883,10 +673,8 @@
     <Content Include="Scripts\dropzone\dropzone.js" />
     <Content Include="Scripts\dropzone\dropzone.min.css" />
     <Content Include="Scripts\dropzone\dropzone.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.fancybox-buttons.js" />
     <Content Include="Scripts\jquery.fancybox-media.js" />
@@ -898,10 +686,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Account\Orders.cshtml" />
+    <Content Include="Views\Pages\SidebarPartial.cshtml" />
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -912,40 +703,39 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Cart\AddToCartPartial.cshtml" />
-    <Content Include="Views\Cart\CartPartial.cshtml" />
-    <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Pages\Index.cshtml" />
     <Content Include="Views\Pages\PagesMenuPartial.cshtml" />
-    <Content Include="Views\Pages\SidebarPartial.cshtml" />
-    <Content Include="Views\Shop\Category.cshtml" />
     <Content Include="Views\Shop\CategoryMenuPartial.cshtml" />
+    <Content Include="Views\Shop\Category.cshtml" />
     <Content Include="Views\Shop\ProductDetails.cshtml" />
-    <Content Include="Views\Account\CreateAccount.cshtml" />
+    <Content Include="Views\Cart\CartPartial.cshtml" />
+    <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Cart\AddToCartPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\UserNavPartial.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Cart\PaypalPartial.cshtml" />
+    <Content Include="Views\Transaction\View.cshtml" />
+    <Content Include="Views\Transaction\View1.cshtml" />
+    <Content Include="Views\Transaction\CardDetails.cshtml" />
+    <Content Include="Views\Account\CreateAccount.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="fileman\aspnet_client\system_web\2_0_50727\" />
-    <Folder Include="fileman\aspnet_client\system_web\4_0_30319\" />
-    <Folder Include="fileman\tmp\" />
-    <Folder Include="fileman\Uploads\Documents\" />
-    <Folder Include="fileman\Uploads\FLV\" />
+    <Folder Include="Areas\Admin\Models\ViewModels\Shop\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\TransactionWebService\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -963,9 +753,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>54175</DevelopmentServerPort>
+          <DevelopmentServerPort>50036</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:54000/</IISUrl>
+          <IISUrl>http://localhost:50036/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
@@ -975,6 +765,13 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
