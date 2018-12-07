@@ -1,34 +1,37 @@
 ﻿@model CmsShoppingCart.Models.ViewModels.Shop.ProductVM
-@{
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
+
 @{
     ViewBag.Title = "Edit Product";
 }
+
 <h2>Edit Product</h2>
+
 <div>
     @Html.ActionLink("Back to Products", "Products")
 </div>
-<style>
 
+<style>
     input#ImageName {
         display: none;
     }
 </style>
+
 @if (TempData["SM"] != null)
 {
     <div class="alert alert-success">
         @TempData["SM"]
     </div>
 }
-@using (Html.BeginForm("EditProduct", "Shop", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+@using (Html.BeginForm("EditProduct", "Shop", FormMethod.Post, new { enctype = "multipart/form-data" } ))
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -36,13 +39,15 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control" } )
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -50,6 +55,7 @@
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
+        
         <div class="form-group">
             <label class="control-label col-md-2" for="HasSidebar">Category</label>
             <div class="col-md-10">
@@ -57,6 +63,7 @@
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             <label class="control-label col-md-2" for="HasSidebar">Image Name</label>
             @Html.EditorFor(model => model.ImageName, new { htmlAttributes = new { @class = "form-control" } })
@@ -70,6 +77,7 @@
                 </div>
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Edit Product" class="btn btn-default" />
@@ -77,18 +85,23 @@
         </div>
     </div>
 }
+
 <hr />
-@if (!Model.GalleryImages.Any())
+
+@if (! Model.GalleryImages.Any())
 {
     <h3>There are no gallery images for this product.</h3>
 }
+
 <form action="/admin/shop/SaveGalleryImages" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
     <div class="fallback">
         <input type="file" name="file" multiple />
         <input type="submit" value="Upload" />
     </div>
 </form>
+
 <br /><br />
+
 @foreach (var image in Model.GalleryImages)
 {
     <div style="display: inline-block;margin-right: 15px;">
@@ -98,9 +111,10 @@
 }
 <link href="~/Scripts/dropzone/basic.css" rel="stylesheet" />
 <link href="~/Scripts/dropzone/dropzone.css" rel="stylesheet" />
+
 @section Scripts {
-    <script src="~/Scripts/dropzone/dropzone.js"></script>
-    <script>
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+<script>
 
 $(function () {
 
@@ -174,5 +188,6 @@ $(function () {
 
 });
 
-    </script>
+</script>
+
 }

@@ -14,7 +14,7 @@ namespace CmsShoppingCart.Models.ViewModels.Shop
 
         public CategoryVM(CategoryDTO row)
         {
-            Id = row.id;
+            Id = row.Id;
             Name = row.Name;
             Slug = row.Slug;
             Sorting = row.Sorting;

@@ -42,7 +42,7 @@ namespace CmsShoppingCart.Controllers
             {
                 // Get category id
                 CategoryDTO categoryDTO = db.Categories.Where(x => x.Slug == name).FirstOrDefault();
-                int catId = categoryDTO.id;
+                int catId = categoryDTO.Id;
 
                 // Init the list
                 productVMList = db.Products.ToArray().Where(x => x.CategoryId == catId).Select(x => new ProductVM(x)).ToList();
@@ -70,7 +70,7 @@ namespace CmsShoppingCart.Controllers
             using (Db db = new Db())
             {
                 // Check if product exists
-                if (!db.Products.Any(x => x.Slug.Equals(name)))
+                if (! db.Products.Any(x => x.Slug.Equals(name)))
                 {
                     return RedirectToAction("Index", "Shop");
                 }

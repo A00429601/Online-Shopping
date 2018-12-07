@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<CmsShoppingCart.Models.ViewModels.Shop.ProductVM>
-@{
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-}
+
 @{
     ViewBag.Title = "Products";
 }
 
-@using PagedList.Mvc;
+@using PagedList.Mvc; 
 @using PagedList;
 
 <h2>Products</h2>
@@ -67,7 +65,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditProduct", new { id = product.Id }) |
-                @Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id }, new { @class = "delete" })
+                @Html.ActionLink("Delete", "DeleteProduct", new { id = product.Id }, new { @class = "delete" } )
             </td>
         </tr>
     }
@@ -77,39 +75,39 @@
 @Html.PagedListPager((IPagedList)ViewBag.OnePageOfProducts, page => Url.Action("Products", new { page, catId = ViewBag.SelectedCat }))
 
 @section Scripts {
-    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-    <script>
+<script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<script>
 
-        $(function () {
+$(function () {
 
-            /*
-            * Select products from specified category
-            */
+    /*
+    * Select products from specified category
+    */
 
-            $("#SelectCategory").on("change", function () {
-                var url = $(this).val();
+    $("#SelectCategory").on("change", function () {
+        var url = $(this).val();
 
-                if (url) {
-                    window.location = "/admin/shop/Products?catId=" + url;
-                }
+        if (url) {
+            window.location = "/admin/shop/Products?catId=" + url;
+        }
 
-                return false;
-            });
+        return false;
+    });
 
-            //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
 
-            /*
-            * Confirm product deletion
-            */
+    /*
+    * Confirm product deletion
+    */
 
-            $("a.delete").click(function () {
-                if (!confirm("Confirm product deletion")) return false;
-            });
+    $("a.delete").click(function () {
+        if (!confirm("Confirm product deletion")) return false;
+    });
 
-            //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
 
-        });
+});
 
-    </script>
+</script>
 
 }

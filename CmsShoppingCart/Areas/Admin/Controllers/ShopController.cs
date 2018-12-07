@@ -1,6 +1,5 @@
 ﻿using CmsShoppingCart.Models.Data;
 using CmsShoppingCart.Models.ViewModels.Shop;
-using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,24 +7,30 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-
+using PagedList;
 
 namespace CmsShoppingCart.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ShopController : Controller
     {
         // GET: Admin/Shop/Categories
         public ActionResult Categories()
         {
-            //Declare a list of models
+            // Declare a list of models
             List<CategoryVM> categoryVMList;
 
             using (Db db = new Db())
             {
-                //Init the list
-                categoryVMList = db.Categories.ToArray().OrderBy(x => x.Sorting).Select(x => new CategoryVM(x)).ToList();
+                // Init the list
+                categoryVMList = db.Categories
+                                .ToArray()
+                                .OrderBy(x => x.Sorting)
+                                .Select(x => new CategoryVM(x))
+                                .ToList();
             }
-            //Return view with list
+
+            // Return view with list
             return View(categoryVMList);
         }
 
@@ -33,26 +38,32 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         [HttpPost]
         public string AddNewCategory(string catName)
         {
-            //Declare id
+            // Declare id
             string id;
 
             using (Db db = new Db())
             {
-
+                // Check that the category name is unique
                 if (db.Categories.Any(x => x.Name == catName))
                     return "titletaken";
 
+                // Init DTO
                 CategoryDTO dto = new CategoryDTO();
 
+                // Add to DTO
                 dto.Name = catName;
                 dto.Slug = catName.Replace(" ", "-").ToLower();
                 dto.Sorting = 100;
 
+                // Save DTO
                 db.Categories.Add(dto);
                 db.SaveChanges();
 
-                id = dto.id.ToString();
+                // Get the id
+                id = dto.Id.ToString();
             }
+
+            // Return id
             return id;
         }
 
@@ -62,93 +73,116 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         {
             using (Db db = new Db())
             {
+                // Set initial count
                 int count = 1;
 
+                // Declare CategoryDTO
                 CategoryDTO dto;
 
+                // Set sorting for each category
                 foreach (var catId in id)
                 {
                     dto = db.Categories.Find(catId);
                     dto.Sorting = count;
+
                     db.SaveChanges();
+
                     count++;
                 }
             }
+
         }
 
-        // POST: Admin/Shop/DeleteCategory/id
-        [HttpPost]
+        // GET: Admin/Shop/DeleteCategory/id
         public ActionResult DeleteCategory(int id)
         {
             using (Db db = new Db())
             {
+                // Get the category
                 CategoryDTO dto = db.Categories.Find(id);
 
+                // Remove the category
                 db.Categories.Remove(dto);
+
+                // Save
                 db.SaveChanges();
             }
-            return RedirectToAction("Categories");
-                }
 
+            // Redirect
+            return RedirectToAction("Categories");
+        }
+
+        // POST: Admin/Shop/RenameCategory
         [HttpPost]
         public string RenameCategory(string newCatName, int id)
         {
-
             using (Db db = new Db())
             {
-
+                // Check category name is unique
                 if (db.Categories.Any(x => x.Name == newCatName))
                     return "titletaken";
 
-                CategoryDTO dto = new CategoryDTO();
+                // Get DTO
+                CategoryDTO dto = db.Categories.Find(id);
 
+                // Edit DTO
                 dto.Name = newCatName;
                 dto.Slug = newCatName.Replace(" ", "-").ToLower();
 
+                // Save
                 db.SaveChanges();
             }
+
+            // Return
             return "ok";
         }
 
-
+        // GET: Admin/Shop/AddProduct
         [HttpGet]
         public ActionResult AddProduct()
         {
+            // Init model
             ProductVM model = new ProductVM();
+
+            // Add select list of categories to model
             using (Db db = new Db())
             {
-                model.Categories =new SelectList(db.Categories.ToList(),"Id","Name");
-
+                model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
             }
+
+            // Return view with model
             return View(model);
         }
 
+        // POST: Admin/Shop/AddProduct
         [HttpPost]
         public ActionResult AddProduct(ProductVM model, HttpPostedFileBase file)
         {
-            if(! ModelState.IsValid)
+            // Check model state
+            if (! ModelState.IsValid)
             {
                 using (Db db = new Db())
                 {
                     model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
                     return View(model);
-
                 }
             }
 
+            // Make sure product name is unique
             using (Db db = new Db())
             {
-
                 if (db.Products.Any(x => x.Name == model.Name))
                 {
                     model.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
-                    ModelState.AddModelError("", "That product is taken!");
+                    ModelState.AddModelError("", "That product name is taken!");
                     return View(model);
                 }
             }
 
+            // Declare product id
             int id;
 
+            // Init and save productDTO
             using (Db db = new Db())
             {
                 ProductDTO product = new ProductDTO();
@@ -159,26 +193,29 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 product.Price = model.Price;
                 product.CategoryId = model.CategoryId;
 
-                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.id == model.CategoryId);
+                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
                 product.CategoryName = catDTO.Name;
 
                 db.Products.Add(product);
                 db.SaveChanges();
 
+                // Get the id
                 id = product.Id;
             }
 
+            // Set TempData message
             TempData["SM"] = "You have added a product!";
 
+            #region Upload Image
 
             // Create necessary directories
             var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
 
             var pathString1 = Path.Combine(originalDirectory.ToString(), "Products");
-            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString());
-            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs");
-            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery");
-            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs");
+            var pathString2 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() );
+            var pathString3 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Thumbs" );
+            var pathString4 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery" );
+            var pathString5 = Path.Combine(originalDirectory.ToString(), "Products\\" + id.ToString() + "\\Gallery\\Thumbs" );
 
             if (!Directory.Exists(pathString1))
                 Directory.CreateDirectory(pathString1);
@@ -202,11 +239,11 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 string ext = file.ContentType.ToLower();
 
                 // Verify extension
-                if (ext != "image/jpg" &&
-                    ext != "image/jpeg" &&
-                    ext != "image/pjpeg" &&
-                    ext != "image/gif" &&
-                    ext != "image/x-png" &&
+                if (ext != "image/jpg" && 
+                    ext != "image/jpeg" && 
+                    ext != "image/pjpeg" && 
+                    ext != "image/gif" && 
+                    ext != "image/x-png" && 
                     ext != "image/png")
                 {
                     using (Db db = new Db())
@@ -242,44 +279,45 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 img.Save(path2);
             }
 
+            #endregion
+
             // Redirect
             return RedirectToAction("AddProduct");
-
         }
 
-
-        //Get: Admin/Shop/Products
+        // GET: Admin/Shop/Products
         public ActionResult Products(int? page, int? catId)
         {
-            //Declare a list of ProductVM
+            // Declare a list of ProductVM
             List<ProductVM> listOfProductVM;
 
-            //Set page number
+            // Set page number
             var pageNumber = page ?? 1;
 
             using (Db db = new Db())
             {
-                //Init the list
+                // Init the list
                 listOfProductVM = db.Products.ToArray()
-                    .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
-                    .Select(x => new ProductVM(x))
-                    .ToList();
+                                  .Where(x => catId == null || catId == 0 || x.CategoryId == catId)
+                                  .Select(x => new ProductVM(x))
+                                  .ToList();
 
-                //Populate categories select list
+                // Populate categories select list
                 ViewBag.Categories = new SelectList(db.Categories.ToList(), "Id", "Name");
 
-                //Set selected category
+                // Set selected category
                 ViewBag.SelectedCat = catId.ToString();
-
             }
 
-            //set pagination
+            // Set pagination
             var onePageOfProducts = listOfProductVM.ToPagedList(pageNumber, 3);
             ViewBag.OnePageOfProducts = onePageOfProducts;
 
-            //return view with list
+            // Return view with list
             return View(listOfProductVM);
         }
+
+        // GET: Admin/Shop/EditProduct/id
         [HttpGet]
         public ActionResult EditProduct(int id)
         {
@@ -312,6 +350,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             return View(model);
         }
 
+        // POST: Admin/Shop/EditProduct/id
         [HttpPost]
         public ActionResult EditProduct(ProductVM model, HttpPostedFileBase file)
         {
@@ -354,7 +393,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 dto.CategoryId = model.CategoryId;
                 dto.ImageName = model.ImageName;
 
-                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.id == model.CategoryId);
+                CategoryDTO catDTO = db.Categories.FirstOrDefault(x => x.Id == model.CategoryId);
                 dto.CategoryName = catDTO.Name;
 
                 db.SaveChanges();
@@ -366,8 +405,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             #region Image Upload
 
             // Check for file upload
-            if (file != null && file.ContentLength > 0)
-            {
+            if (file != null && file.ContentLength > 0) {
 
                 // Get extension
                 string ext = file.ContentType.ToLower();
@@ -434,6 +472,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             return RedirectToAction("EditProduct");
         }
 
+        // GET: Admin/Shop/DeleteProduct/id
         public ActionResult DeleteProduct(int id)
         {
             // Delete product from DB
@@ -467,7 +506,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 HttpPostedFileBase file = Request.Files[fileName];
 
                 // Check it's not null
-                if (file != null && file.ContentLength > 0)
+                if ( file != null && file.ContentLength > 0)
                 {
                     // Set directory paths
                     var originalDirectory = new DirectoryInfo(string.Format("{0}Images\\Uploads", Server.MapPath(@"\")));
@@ -490,21 +529,81 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             }
 
         }
+
         // POST: Admin/Shop/DeleteImage
         [HttpPost]
-        public void DeleteImage(int id , string imageName)
+        public void DeleteImage(int id, string imageName)
         {
-            string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery" + imageName);
-            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/Thumbs" + imageName);
+            string fullPath1 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/" + imageName);
+            string fullPath2 = Request.MapPath("~/Images/Uploads/Products/" + id.ToString() + "/Gallery/Thumbs/" + imageName);
 
             if (System.IO.File.Exists(fullPath1))
                 System.IO.File.Delete(fullPath1);
 
             if (System.IO.File.Exists(fullPath2))
                 System.IO.File.Delete(fullPath2);
-
-
         }
-    }
 
+        // GET: Admin/Shop/Orders
+        //public ActionResult Orders()
+        //{
+        //    // Init list of OrdersForAdminVM
+        //    List<OrdersForAdminVM> ordersForAdmin = new List<OrdersForAdminVM>();
+
+        //    using (Db db = new Db())
+        //    {
+        //        // Init list of OrderVM
+        //        List<OrderVM> orders = db.Orders.ToArray().Select(x => new OrderVM(x)).ToList();
+
+        //        // Loop through list of OrderVM
+        //        foreach (var order in orders)
+        //        {
+        //            // Init product dict
+        //            Dictionary<string, int> productsAndQty = new Dictionary<string, int>();
+
+        //            // Declare total
+        //            decimal total = 0m;
+
+        //            // Init list of OrderDetailsDTO
+        //            List<OrderDetailsDTO> orderDetailsList = db.OrderDetails.Where(X => X.OrderId == order.OrderId).ToList();
+
+        //            // Get username
+        //            UserDTO user = db.Users.Where(x => x.Id == order.UserId).FirstOrDefault();
+        //            string username = user.Username;
+
+        //            // Loop through list of OrderDetailsDTO
+        //            foreach (var orderDetails in orderDetailsList)
+        //            {
+        //                // Get product
+        //                ProductDTO product = db.Products.Where(x => x.Id == orderDetails.ProductId).FirstOrDefault();
+
+        //                // Get product price
+        //                decimal price = product.Price;
+
+        //                // Get product name
+        //                string productName = product.Name;
+
+        //                // Add to product dict
+        //                productsAndQty.Add(productName, orderDetails.Quantity);
+
+        //                // Get total
+        //                total += orderDetails.Quantity * price;
+        //            }
+
+        //            // Add to ordersForAdminVM list
+        //            ordersForAdmin.Add(new OrdersForAdminVM()
+        //            {
+        //                OrderNumber = order.OrderId,
+        //                Username = username,
+        //                Total = total,
+        //                ProductsAndQty = productsAndQty,
+        //                CreatedAt = order.CreatedAt
+        //            });
+        //        }
+        //    }
+
+        //    // Return view with OrdersForAdminVM list
+        //    return View(ordersForAdmin);
+        //}
+    }
 }
